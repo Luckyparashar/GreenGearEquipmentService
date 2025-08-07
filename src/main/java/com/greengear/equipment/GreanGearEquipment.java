@@ -37,12 +37,7 @@ public class GreanGearEquipment {
 		return new RestTemplate();
 	}
 	
-//	@Bean
-//	 CommonsMultipartResolver multipartResolver() {
-//	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//	    multipartResolver.setMaxUploadSize(10000000); // 10MB
-//	    return multipartResolver;
-//	}
+
 
 
 }

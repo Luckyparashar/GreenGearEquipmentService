@@ -3,6 +3,8 @@ package com.greengear.equipment.Service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.greengear.equipment.Dto.ApiResponse;
@@ -29,5 +31,6 @@ public interface EquipmentService {
 	List<EquipmentDTO> getAllEquipment();
 
 	List<EquipmentDTO> getAllEquipmentByUserId(Long userId);
+	 Page<EquipmentDTO> getEquipmentsSortedByPriceAndCity(String order,String city, Pageable pageable);
 
 }
