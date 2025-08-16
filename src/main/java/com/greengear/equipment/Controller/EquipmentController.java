@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -45,8 +46,7 @@ public class EquipmentController {
 	}
 	@GetMapping("/myequipment")
 	public ResponseEntity<?> getAllEquipmentByUserId( @AuthenticationPrincipal CustomUserPrincipal details) {
-		System.out.println(details.getUsername());
-		System.out.println(details.getUserId());
+		
 		return ResponseEntity.ok(equipmentService.getAllEquipmentByUserId(details.getUserId()));
 	}
 	
@@ -71,12 +71,19 @@ public class EquipmentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(equipmentService.toggleEquipmentAvailability(details.getUserId(),id));
 				
 	}
+	@PatchMapping("update/{id}")
+	public ResponseEntity<?> updateEquipment(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal details,@RequestBody EquipmentREQDto data)  {
+		
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(equipmentService.updateEquipment(details.getUserId(),id,data));
+				
+	}
 	@GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
     	EquipmentImageDTO image = equipmentService.getEquipmentImage(id);
         return ResponseEntity.ok().contentType(MediaType.valueOf(image.getImageType())).body(image.getImage());
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEquipment(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal details) {
 		
 		
@@ -99,4 +106,9 @@ public ResponseEntity<?> checkEquipmentAvailability(@PathVariable Long id)  {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(equipmentService.getEquipmentsSortedByPriceAndCity(order, city, pageable));
     }
+    @GetMapping("/myequipment/ids")
+	public ResponseEntity<?> getAllEquipmentId( @AuthenticationPrincipal CustomUserPrincipal details) {
+		
+		return ResponseEntity.ok(equipmentService.getAllEquipmentId(details.getUserId()));
+	}
 }

@@ -49,8 +49,11 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.GET, "/ms2/equipment").permitAll()
 				 .requestMatchers("/ms2/equipment/{id}/image").permitAll()
 				.requestMatchers(HttpMethod.POST, "/ms2/equipment/{id}").hasRole("OWNER")
+				.requestMatchers(HttpMethod.DELETE, "/ms2/equipment/{id}").hasRole("OWNER")
 				.requestMatchers(HttpMethod.GET, "/ms2/equipment/myequipment").hasRole("OWNER")
+				.requestMatchers(HttpMethod.PATCH, "/ms2/equipment/update/{id}").hasRole("OWNER")
 				.requestMatchers(HttpMethod.GET, "/ms2/equipment/{id}").hasRole("RENTER")
+				.requestMatchers(HttpMethod.GET, "/ms2/equipment/myequipment/ids").hasRole("OWNER")
 		.anyRequest().authenticated());
 		
 		// 5. set session creation policy - stateless

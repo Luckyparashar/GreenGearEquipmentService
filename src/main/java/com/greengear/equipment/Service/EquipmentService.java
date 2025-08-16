@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.greengear.equipment.Dto.ApiResponse;
 import com.greengear.equipment.Dto.EquipmentDTO;
+import com.greengear.equipment.Dto.EquipmentIdDTO;
 import com.greengear.equipment.Dto.EquipmentImageDTO;
 import com.greengear.equipment.Dto.EquipmentREQDto;
 
@@ -32,5 +33,9 @@ public interface EquipmentService {
 
 	List<EquipmentDTO> getAllEquipmentByUserId(Long userId);
 	 Page<EquipmentDTO> getEquipmentsSortedByPriceAndCity(String order,String city, Pageable pageable);
+
+	 List<EquipmentIdDTO> getAllEquipmentId(Long userId);
+
+	ApiResponse updateEquipment(Long userId, Long id,EquipmentREQDto data);
 
 }

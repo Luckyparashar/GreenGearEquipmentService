@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.greengear.equipment.Dto.ApiResponse;
 import com.greengear.equipment.Dto.EquipmentDTO;
+import com.greengear.equipment.Dto.EquipmentIdDTO;
 import com.greengear.equipment.Dto.EquipmentImageDTO;
 import com.greengear.equipment.Dto.EquipmentREQDto;
 import com.greengear.equipment.Entities.Equipment;
@@ -104,8 +105,8 @@ private final EquipmentCategoryRepository categoryRepository;
 		return equipements.stream().map(equip->modelMapper.map(equip, EquipmentDTO.class)).toList();
 	}
 	@Override
-	public List<EquipmentDTO> getAllEquipmentByUserId(Long OwnerId) {
-		List<Equipment> equipements = equipmentRepository.findByOwnerId(OwnerId);
+	public List<EquipmentDTO> getAllEquipmentByUserId(Long ownerId) {
+		List<Equipment> equipements = equipmentRepository.findByOwnerId(ownerId);
 		if(equipements.isEmpty())
 			throw new ResourceNotFoundException("No equipement founds  !!!");
 		
@@ -129,5 +130,26 @@ private final EquipmentCategoryRepository categoryRepository;
 	          return  new PageImpl<>(dtoList2, pageable, allByOrderByPricePerDayAsc.getTotalElements());
 	        }
 	    }
+
+	@Override
+	public List<EquipmentIdDTO> getAllEquipmentId(Long ownerId) {
+		List<Equipment> equipements = equipmentRepository.findByOwnerId(ownerId);
+		if(equipements.isEmpty())
+			throw new ResourceNotFoundException("No equipement founds  !!!");
+		
+		return equipements.stream().map(equip->modelMapper.map(equip, EquipmentIdDTO.class)).toList();
+	}
+
+	@Override
+	public ApiResponse updateEquipment(Long ownerId, Long id,EquipmentREQDto data) {
+		Equipment equipment = equipmentRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("equipment not exist..!!!!"));
+		if(equipment.getOwnerId()!=ownerId)
+			throw new ApiException("Invalid Operation.!!!!!!");
+		equipment.setDescription(data.getDescription());
+		equipment.setLocation(data.getLocation());
+		equipment.setName(data.getName());
+		equipment.setPricePerDay(data.getPricePerDay());
+		return new ApiResponse("successfull updated...");
+	}
 
 }
